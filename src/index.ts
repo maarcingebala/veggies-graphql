@@ -1,25 +1,14 @@
-import { ApolloServer } from "apollo-server";
+import { ApolloServer, AuthenticationError } from "apollo-server";
 import { mergeSchemas } from "@graphql-tools/merge";
 import { Sequelize, DataTypes } from "sequelize";
-import { fruitsSchema, FruitsDataSource, IFruitDataSource } from "./fruits";
+import { fruitsSchema, FruitsDataSource } from "./fruits";
 import { usersSchema, UsersDataSource } from "./users";
-import {
-  vegetablesSchema,
-  VegetablesDataSource,
-  IVegetableDataSource,
-} from "./veggies";
-
-export interface IDataSources {
-  fruits: IFruitDataSource;
-  users: any;
-  vegetables: IVegetableDataSource;
-}
+import { vegetablesSchema, VegetablesDataSource } from "./veggies";
 
 const createStore = () => {
   const db = new Sequelize({
     dialect: "sqlite",
     storage: "./db.sqlite",
-    logging: console.log,
   });
   const fruits = db.define("Fruit", {
     name: { type: DataTypes.STRING, allowNull: false },

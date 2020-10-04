@@ -19,13 +19,15 @@ export enum Permission {
   MANAGE_VEGETABLES = "MANAGE_VEGETABLES",
 }
 
-interface IUserDataSource {
+export interface IUserDataSource {
   authenticate(email: string, password: string): TUser | null;
   createToken(user: TUser): string;
   getUser(email: string): TUser | null;
 }
 
 export class UsersDataSource extends DataSource implements IUserDataSource {
+  // To make it easier to see and test different user roles, users are hardcoded
+  // here instead of storing them in the database.
   store: TUser[] = [
     {
       email: "admin@example.com",

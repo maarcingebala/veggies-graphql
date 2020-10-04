@@ -4,7 +4,9 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "codegen": "graphql-codegen --config codegen.yml"
+    "build": "tsc",
+    "codegen": "graphql-codegen --config codegen.yml",
+    "start": "nodemon dist/index.js"
   },
   "keywords": [],
   "author": "Marcin Gębala",
@@ -14,6 +16,7 @@
     "apollo-server": "^2.18.1",
     "graphql": "^15.3.0",
     "jsonwebtoken": "^8.5.1",
+    "nodemon": "^2.0.4",
     "sequelize": "^6.3.5",
     "sqlite3": "^5.0.0"
   },
