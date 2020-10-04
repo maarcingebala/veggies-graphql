@@ -21,6 +21,7 @@ export type Query = {
   __typename?: 'Query';
   fruits: Array<Fruit>;
   fruit?: Maybe<Fruit>;
+  me?: Maybe<User>;
   vegetables: Array<Vegetable>;
   vegetable?: Maybe<Vegetable>;
 };
@@ -287,6 +288,7 @@ export type FruitResolvers<ContextType = any, ParentType extends ResolversParent
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   fruits?: Resolver<Array<ResolversTypes['Fruit']>, ParentType, ContextType>;
   fruit?: Resolver<Maybe<ResolversTypes['Fruit']>, ParentType, ContextType, RequireFields<QueryFruitArgs, 'id'>>;
+  me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   vegetables?: Resolver<Array<ResolversTypes['Vegetable']>, ParentType, ContextType>;
   vegetable?: Resolver<Maybe<ResolversTypes['Vegetable']>, ParentType, ContextType, RequireFields<QueryVegetableArgs, 'id'>>;
 };

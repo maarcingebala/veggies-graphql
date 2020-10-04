@@ -22,12 +22,19 @@ const typeDefs = gql`
     errors: [Error!]
   }
 
+  type Query {
+    me: User
+  }
+
   type Mutation {
     tokenCreate(email: String!, password: String!): TokenCreate!
   }
 `;
 
 const resolvers: Resolvers = {
+  Query: {
+    me: (_, __, { user }) => user,
+  },
   Mutation: {
     tokenCreate: (_, { email, password }, { dataSources }) => {
       let token = "";
