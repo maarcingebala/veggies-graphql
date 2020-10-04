@@ -13,6 +13,7 @@
     "@types/validator": "^13.1.0",
     "apollo-server": "^2.18.1",
     "graphql": "^15.3.0",
+    "jsonwebtoken": "^8.5.1",
     "sequelize": "^6.3.5",
     "sqlite3": "^5.0.0"
   },

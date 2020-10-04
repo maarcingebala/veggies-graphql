@@ -1,16 +1,12 @@
 import { ApolloServer } from "apollo-server";
-import { DataSources } from "apollo-server-core/dist/graphqlOptions";
 import { mergeSchemas } from "@graphql-tools/merge";
 import { Sequelize, DataTypes } from "sequelize";
-import { FruitsDataSource, IFruitDataSource } from "./fruits/datasource";
-import { schema as fruitsSchema } from "./fruits/schema";
+import { fruitsSchema, FruitsDataSource, IFruitDataSource } from "./fruits";
+import { usersSchema, UsersDataSource } from "./users";
 
 export interface IDataSources {
   fruits: IFruitDataSource;
-}
-
-export interface IContext {
-  dataSources: IDataSources;
+  users: any;
 }
 
 const createStore = () => {
@@ -28,12 +24,29 @@ const createStore = () => {
 
 const store = createStore();
 
-const dataSources: DataSources<IDataSources> = {
+const dataSources = {
   fruits: new FruitsDataSource({ store }),
+  users: new UsersDataSource(),
 };
 
-const schema = mergeSchemas({ schemas: [fruitsSchema] });
-const server = new ApolloServer({ schema, dataSources: () => dataSources });
+const context = ({ req }: any) => {
+  let user = null;
+  const auth: string = (req.headers && req.headers.authorization) || "";
+  if (auth) {
+    const [prefix, token] = auth.split(" ", 2);
+    if (prefix === "JWT") {
+      user = dataSources.users.getUserFromToken(token);
+    }
+  }
+  return { user };
+};
+
+const schema = mergeSchemas({ schemas: [fruitsSchema, usersSchema] });
+const server = new ApolloServer({
+  schema,
+  dataSources: () => dataSources,
+  context,
+});
 
 server.listen().then(({ url }) => {
   console.log(`🚀  Server ready at ${url}`);

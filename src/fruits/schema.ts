@@ -1,5 +1,6 @@
 import { gql, makeExecutableSchema } from "apollo-server";
 import { Resolvers } from "../generated/graphql";
+import { checkPermission, Permission } from "../users";
 
 const typeDefs = gql`
   type Fruit {
@@ -52,11 +53,13 @@ const resolvers: Resolvers = {
       const fruit = await dataSources.fruits.create(input);
       return { fruit, errors: [] };
     },
-    updateFruit: async (_, { id, input }, { dataSources }) => {
+    updateFruit: async (_, { id, input }, { dataSources, user }) => {
+      checkPermission(user, Permission.MANAGE_FRUITS);
       const fruit = await dataSources.fruits.update(id, input);
       return { fruit: fruit, errors: [] };
     },
-    deleteFruit: async (_, { id }, { dataSources }) => {
+    deleteFruit: async (_, { id }, { dataSources, user }) => {
+      checkPermission(user, Permission.MANAGE_FRUITS);
       const success = await dataSources.fruits.delete(id);
       return { success, errors: [] };
     },

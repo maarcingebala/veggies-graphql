@@ -60,6 +60,7 @@ export type Mutation = {
   createFruit: CreateFruit;
   updateFruit: UpdateFruit;
   deleteFruit: DeleteFruit;
+  tokenCreate: TokenCreate;
 };
 
 
@@ -76,6 +77,30 @@ export type MutationUpdateFruitArgs = {
 
 export type MutationDeleteFruitArgs = {
   id: Scalars['ID'];
+};
+
+
+export type MutationTokenCreateArgs = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+};
+
+export enum Permission {
+  ManageFruits = 'MANAGE_FRUITS',
+  ManageVegetables = 'MANAGE_VEGETABLES'
+}
+
+export type User = {
+  __typename?: 'User';
+  email: Scalars['String'];
+  permissions?: Maybe<Array<Permission>>;
+};
+
+export type TokenCreate = {
+  __typename?: 'TokenCreate';
+  user?: Maybe<User>;
+  token?: Maybe<Scalars['String']>;
+  errors?: Maybe<Array<Error>>;
 };
 
 
@@ -167,6 +192,9 @@ export type ResolversTypes = {
   DeleteFruit: ResolverTypeWrapper<DeleteFruit>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   Mutation: ResolverTypeWrapper<{}>;
+  Permission: Permission;
+  User: ResolverTypeWrapper<User>;
+  TokenCreate: ResolverTypeWrapper<TokenCreate>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -182,6 +210,8 @@ export type ResolversParentTypes = {
   DeleteFruit: DeleteFruit;
   Boolean: Scalars['Boolean'];
   Mutation: {};
+  User: User;
+  TokenCreate: TokenCreate;
 };
 
 export type FruitResolvers<ContextType = any, ParentType extends ResolversParentTypes['Fruit'] = ResolversParentTypes['Fruit']> = {
@@ -222,6 +252,20 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createFruit?: Resolver<ResolversTypes['CreateFruit'], ParentType, ContextType, RequireFields<MutationCreateFruitArgs, 'input'>>;
   updateFruit?: Resolver<ResolversTypes['UpdateFruit'], ParentType, ContextType, RequireFields<MutationUpdateFruitArgs, 'id' | 'input'>>;
   deleteFruit?: Resolver<ResolversTypes['DeleteFruit'], ParentType, ContextType, RequireFields<MutationDeleteFruitArgs, 'id'>>;
+  tokenCreate?: Resolver<ResolversTypes['TokenCreate'], ParentType, ContextType, RequireFields<MutationTokenCreateArgs, 'email' | 'password'>>;
+};
+
+export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
+  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  permissions?: Resolver<Maybe<Array<ResolversTypes['Permission']>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type TokenCreateResolvers<ContextType = any, ParentType extends ResolversParentTypes['TokenCreate'] = ResolversParentTypes['TokenCreate']> = {
+  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  errors?: Resolver<Maybe<Array<ResolversTypes['Error']>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {
@@ -232,6 +276,8 @@ export type Resolvers<ContextType = any> = {
   UpdateFruit?: UpdateFruitResolvers<ContextType>;
   DeleteFruit?: DeleteFruitResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
+  User?: UserResolvers<ContextType>;
+  TokenCreate?: TokenCreateResolvers<ContextType>;
 };
 
 
