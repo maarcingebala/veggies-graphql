@@ -3,10 +3,16 @@ import { mergeSchemas } from "@graphql-tools/merge";
 import { Sequelize, DataTypes } from "sequelize";
 import { fruitsSchema, FruitsDataSource, IFruitDataSource } from "./fruits";
 import { usersSchema, UsersDataSource } from "./users";
+import {
+  vegetablesSchema,
+  VegetablesDataSource,
+  IVegetableDataSource,
+} from "./veggies";
 
 export interface IDataSources {
   fruits: IFruitDataSource;
   users: any;
+  vegetables: IVegetableDataSource;
 }
 
 const createStore = () => {
@@ -18,8 +24,11 @@ const createStore = () => {
   const fruits = db.define("Fruit", {
     name: { type: DataTypes.STRING, allowNull: false },
   });
+  const vegetables = db.define("Vegetable", {
+    name: { type: DataTypes.STRING, allowNull: false },
+  });
   db.sync();
-  return { db, fruits };
+  return { db, fruits, vegetables };
 };
 
 const store = createStore();
@@ -27,6 +36,7 @@ const store = createStore();
 const dataSources = {
   fruits: new FruitsDataSource({ store }),
   users: new UsersDataSource(),
+  vegetables: new VegetablesDataSource({ store }),
 };
 
 const context = ({ req }: any) => {
@@ -41,7 +51,9 @@ const context = ({ req }: any) => {
   return { user };
 };
 
-const schema = mergeSchemas({ schemas: [fruitsSchema, usersSchema] });
+const schema = mergeSchemas({
+  schemas: [fruitsSchema, usersSchema, vegetablesSchema],
+});
 const server = new ApolloServer({
   schema,
   dataSources: () => dataSources,

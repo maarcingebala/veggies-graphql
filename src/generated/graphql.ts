@@ -21,10 +21,17 @@ export type Query = {
   __typename?: 'Query';
   fruits: Array<Fruit>;
   fruit?: Maybe<Fruit>;
+  vegetables: Array<Vegetable>;
+  vegetable?: Maybe<Vegetable>;
 };
 
 
 export type QueryFruitArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryVegetableArgs = {
   id: Scalars['ID'];
 };
 
@@ -61,6 +68,9 @@ export type Mutation = {
   updateFruit: UpdateFruit;
   deleteFruit: DeleteFruit;
   tokenCreate: TokenCreate;
+  createVegetable: CreateVegetable;
+  updateVegetable: UpdateVegetable;
+  deleteVegetable: DeleteVegetable;
 };
 
 
@@ -85,6 +95,22 @@ export type MutationTokenCreateArgs = {
   password: Scalars['String'];
 };
 
+
+export type MutationCreateVegetableArgs = {
+  input: VegetableInput;
+};
+
+
+export type MutationUpdateVegetableArgs = {
+  id: Scalars['ID'];
+  input: VegetableInput;
+};
+
+
+export type MutationDeleteVegetableArgs = {
+  id: Scalars['ID'];
+};
+
 export enum Permission {
   ManageFruits = 'MANAGE_FRUITS',
   ManageVegetables = 'MANAGE_VEGETABLES'
@@ -100,6 +126,34 @@ export type TokenCreate = {
   __typename?: 'TokenCreate';
   user?: Maybe<User>;
   token?: Maybe<Scalars['String']>;
+  errors?: Maybe<Array<Error>>;
+};
+
+export type Vegetable = {
+  __typename?: 'Vegetable';
+  id: Scalars['ID'];
+  name: Scalars['String'];
+};
+
+export type VegetableInput = {
+  name: Scalars['String'];
+};
+
+export type CreateVegetable = {
+  __typename?: 'CreateVegetable';
+  vegetable?: Maybe<Vegetable>;
+  errors?: Maybe<Array<Error>>;
+};
+
+export type UpdateVegetable = {
+  __typename?: 'UpdateVegetable';
+  vegetable?: Maybe<Vegetable>;
+  errors?: Maybe<Array<Error>>;
+};
+
+export type DeleteVegetable = {
+  __typename?: 'DeleteVegetable';
+  success: Scalars['Boolean'];
   errors?: Maybe<Array<Error>>;
 };
 
@@ -195,6 +249,11 @@ export type ResolversTypes = {
   Permission: Permission;
   User: ResolverTypeWrapper<User>;
   TokenCreate: ResolverTypeWrapper<TokenCreate>;
+  Vegetable: ResolverTypeWrapper<Vegetable>;
+  VegetableInput: VegetableInput;
+  CreateVegetable: ResolverTypeWrapper<CreateVegetable>;
+  UpdateVegetable: ResolverTypeWrapper<UpdateVegetable>;
+  DeleteVegetable: ResolverTypeWrapper<DeleteVegetable>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -212,6 +271,11 @@ export type ResolversParentTypes = {
   Mutation: {};
   User: User;
   TokenCreate: TokenCreate;
+  Vegetable: Vegetable;
+  VegetableInput: VegetableInput;
+  CreateVegetable: CreateVegetable;
+  UpdateVegetable: UpdateVegetable;
+  DeleteVegetable: DeleteVegetable;
 };
 
 export type FruitResolvers<ContextType = any, ParentType extends ResolversParentTypes['Fruit'] = ResolversParentTypes['Fruit']> = {
@@ -223,6 +287,8 @@ export type FruitResolvers<ContextType = any, ParentType extends ResolversParent
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   fruits?: Resolver<Array<ResolversTypes['Fruit']>, ParentType, ContextType>;
   fruit?: Resolver<Maybe<ResolversTypes['Fruit']>, ParentType, ContextType, RequireFields<QueryFruitArgs, 'id'>>;
+  vegetables?: Resolver<Array<ResolversTypes['Vegetable']>, ParentType, ContextType>;
+  vegetable?: Resolver<Maybe<ResolversTypes['Vegetable']>, ParentType, ContextType, RequireFields<QueryVegetableArgs, 'id'>>;
 };
 
 export type ErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes['Error'] = ResolversParentTypes['Error']> = {
@@ -253,6 +319,9 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   updateFruit?: Resolver<ResolversTypes['UpdateFruit'], ParentType, ContextType, RequireFields<MutationUpdateFruitArgs, 'id' | 'input'>>;
   deleteFruit?: Resolver<ResolversTypes['DeleteFruit'], ParentType, ContextType, RequireFields<MutationDeleteFruitArgs, 'id'>>;
   tokenCreate?: Resolver<ResolversTypes['TokenCreate'], ParentType, ContextType, RequireFields<MutationTokenCreateArgs, 'email' | 'password'>>;
+  createVegetable?: Resolver<ResolversTypes['CreateVegetable'], ParentType, ContextType, RequireFields<MutationCreateVegetableArgs, 'input'>>;
+  updateVegetable?: Resolver<ResolversTypes['UpdateVegetable'], ParentType, ContextType, RequireFields<MutationUpdateVegetableArgs, 'id' | 'input'>>;
+  deleteVegetable?: Resolver<ResolversTypes['DeleteVegetable'], ParentType, ContextType, RequireFields<MutationDeleteVegetableArgs, 'id'>>;
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
@@ -268,6 +337,30 @@ export type TokenCreateResolvers<ContextType = any, ParentType extends Resolvers
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type VegetableResolvers<ContextType = any, ParentType extends ResolversParentTypes['Vegetable'] = ResolversParentTypes['Vegetable']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateVegetableResolvers<ContextType = any, ParentType extends ResolversParentTypes['CreateVegetable'] = ResolversParentTypes['CreateVegetable']> = {
+  vegetable?: Resolver<Maybe<ResolversTypes['Vegetable']>, ParentType, ContextType>;
+  errors?: Resolver<Maybe<Array<ResolversTypes['Error']>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type UpdateVegetableResolvers<ContextType = any, ParentType extends ResolversParentTypes['UpdateVegetable'] = ResolversParentTypes['UpdateVegetable']> = {
+  vegetable?: Resolver<Maybe<ResolversTypes['Vegetable']>, ParentType, ContextType>;
+  errors?: Resolver<Maybe<Array<ResolversTypes['Error']>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type DeleteVegetableResolvers<ContextType = any, ParentType extends ResolversParentTypes['DeleteVegetable'] = ResolversParentTypes['DeleteVegetable']> = {
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  errors?: Resolver<Maybe<Array<ResolversTypes['Error']>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type Resolvers<ContextType = any> = {
   Fruit?: FruitResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
@@ -278,6 +371,10 @@ export type Resolvers<ContextType = any> = {
   Mutation?: MutationResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
   TokenCreate?: TokenCreateResolvers<ContextType>;
+  Vegetable?: VegetableResolvers<ContextType>;
+  CreateVegetable?: CreateVegetableResolvers<ContextType>;
+  UpdateVegetable?: UpdateVegetableResolvers<ContextType>;
+  DeleteVegetable?: DeleteVegetableResolvers<ContextType>;
 };
 
 
