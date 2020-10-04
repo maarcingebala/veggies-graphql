@@ -1,8 +1,9 @@
 import { ApolloServer } from "apollo-server";
 import { DataSources } from "apollo-server-core/dist/graphqlOptions";
+import { mergeSchemas } from "@graphql-tools/merge";
 import { Sequelize, DataTypes } from "sequelize";
-import { FruitsDataSource, IFruitDataSource } from "./datasources/fruits";
-import { schema } from "./schema";
+import { FruitsDataSource, IFruitDataSource } from "./fruits/datasource";
+import { schema as fruitsSchema } from "./fruits/schema";
 
 export interface IDataSources {
   fruits: IFruitDataSource;
@@ -31,6 +32,7 @@ const dataSources: DataSources<IDataSources> = {
   fruits: new FruitsDataSource({ store }),
 };
 
+const schema = mergeSchemas({ schemas: [fruitsSchema] });
 const server = new ApolloServer({ schema, dataSources: () => dataSources });
 
 server.listen().then(({ url }) => {

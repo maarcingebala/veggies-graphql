@@ -11,35 +11,16 @@ export type Scalars = {
   Float: number;
 };
 
-export type Vegetable = {
-  __typename?: 'Vegetable';
-  id: Scalars['ID'];
-  name: Scalars['String'];
-};
-
 export type Fruit = {
   __typename?: 'Fruit';
   id: Scalars['ID'];
   name: Scalars['String'];
 };
 
-export type User = {
-  __typename?: 'User';
-  id: Scalars['ID'];
-  email: Scalars['String'];
-};
-
 export type Query = {
   __typename?: 'Query';
-  vegetables: Array<Vegetable>;
-  vegetable?: Maybe<Vegetable>;
   fruits: Array<Fruit>;
   fruit?: Maybe<Fruit>;
-};
-
-
-export type QueryVegetableArgs = {
-  id: Scalars['ID'];
 };
 
 
@@ -175,11 +156,9 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
-  Vegetable: ResolverTypeWrapper<Vegetable>;
+  Fruit: ResolverTypeWrapper<Fruit>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   String: ResolverTypeWrapper<Scalars['String']>;
-  Fruit: ResolverTypeWrapper<Fruit>;
-  User: ResolverTypeWrapper<User>;
   Query: ResolverTypeWrapper<{}>;
   Error: ResolverTypeWrapper<Error>;
   FruitInput: FruitInput;
@@ -192,11 +171,9 @@ export type ResolversTypes = {
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
-  Vegetable: Vegetable;
+  Fruit: Fruit;
   ID: Scalars['ID'];
   String: Scalars['String'];
-  Fruit: Fruit;
-  User: User;
   Query: {};
   Error: Error;
   FruitInput: FruitInput;
@@ -207,27 +184,13 @@ export type ResolversParentTypes = {
   Mutation: {};
 };
 
-export type VegetableResolvers<ContextType = any, ParentType extends ResolversParentTypes['Vegetable'] = ResolversParentTypes['Vegetable']> = {
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
 export type FruitResolvers<ContextType = any, ParentType extends ResolversParentTypes['Fruit'] = ResolversParentTypes['Fruit']> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  vegetables?: Resolver<Array<ResolversTypes['Vegetable']>, ParentType, ContextType>;
-  vegetable?: Resolver<Maybe<ResolversTypes['Vegetable']>, ParentType, ContextType, RequireFields<QueryVegetableArgs, 'id'>>;
   fruits?: Resolver<Array<ResolversTypes['Fruit']>, ParentType, ContextType>;
   fruit?: Resolver<Maybe<ResolversTypes['Fruit']>, ParentType, ContextType, RequireFields<QueryFruitArgs, 'id'>>;
 };
@@ -262,9 +225,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type Resolvers<ContextType = any> = {
-  Vegetable?: VegetableResolvers<ContextType>;
   Fruit?: FruitResolvers<ContextType>;
-  User?: UserResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Error?: ErrorResolvers<ContextType>;
   CreateFruit?: CreateFruitResolvers<ContextType>;

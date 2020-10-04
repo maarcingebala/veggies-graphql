@@ -1,25 +1,13 @@
 import { gql, makeExecutableSchema } from "apollo-server";
-import { Resolvers } from "./generated/graphql";
+import { Resolvers } from "../generated/graphql";
 
 const typeDefs = gql`
-  type Vegetable {
-    id: ID!
-    name: String!
-  }
-
   type Fruit {
     id: ID!
     name: String!
   }
 
-  type User {
-    id: ID!
-    email: String!
-  }
-
   type Query {
-    vegetables: [Vegetable!]!
-    vegetable(id: ID!): Vegetable
     fruits: [Fruit!]!
     fruit(id: ID!): Fruit
   }
