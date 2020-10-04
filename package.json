@@ -1,0 +1,24 @@
+{
+  "name": "veggies-graphql",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "codegen": "graphql-codegen --config codegen.yml"
+  },
+  "keywords": [],
+  "author": "Marcin Gębala",
+  "license": "ISC",
+  "dependencies": {
+    "@types/validator": "^13.1.0",
+    "apollo-server": "^2.18.1",
+    "graphql": "^15.3.0",
+    "sequelize": "^6.3.5",
+    "sqlite3": "^5.0.0"
+  },
+  "devDependencies": {
+    "@graphql-codegen/typescript": "1.17.10",
+    "@graphql-codegen/typescript-resolvers": "1.17.10",
+    "@graphql-codegen/cli": "1.17.10"
+  }
+}
