@@ -11,6 +11,11 @@ export type Scalars = {
   Float: number;
 };
 
+export enum Permission {
+  ManageFruits = 'MANAGE_FRUITS',
+  ManageVegetables = 'MANAGE_VEGETABLES'
+}
+
 export type Fruit = {
   __typename?: 'Fruit';
   id: Scalars['ID'];
@@ -111,11 +116,6 @@ export type MutationUpdateVegetableArgs = {
 export type MutationDeleteVegetableArgs = {
   id: Scalars['ID'];
 };
-
-export enum Permission {
-  ManageFruits = 'MANAGE_FRUITS',
-  ManageVegetables = 'MANAGE_VEGETABLES'
-}
 
 export type User = {
   __typename?: 'User';
@@ -236,6 +236,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
+  Permission: Permission;
   Fruit: ResolverTypeWrapper<Fruit>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   String: ResolverTypeWrapper<Scalars['String']>;
@@ -247,7 +248,6 @@ export type ResolversTypes = {
   DeleteFruit: ResolverTypeWrapper<DeleteFruit>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   Mutation: ResolverTypeWrapper<{}>;
-  Permission: Permission;
   User: ResolverTypeWrapper<User>;
   TokenCreate: ResolverTypeWrapper<TokenCreate>;
   Vegetable: ResolverTypeWrapper<Vegetable>;

@@ -1,4 +1,4 @@
-import { ApolloServer, AuthenticationError } from "apollo-server";
+import { ApolloServer } from "apollo-server";
 import { mergeSchemas } from "@graphql-tools/merge";
 import { Sequelize, DataTypes } from "sequelize";
 import { fruitsSchema, FruitsDataSource } from "./fruits";
@@ -9,6 +9,7 @@ const createStore = () => {
   const db = new Sequelize({
     dialect: "sqlite",
     storage: "./db.sqlite",
+    logging: false,
   });
   const fruits = db.define("Fruit", {
     name: { type: DataTypes.STRING, allowNull: false },

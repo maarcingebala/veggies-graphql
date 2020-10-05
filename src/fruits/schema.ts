@@ -1,16 +1,23 @@
 import { gql, makeExecutableSchema } from "apollo-server";
 import { Resolvers } from "../generated/graphql";
-import { checkPermission, Permission } from "../users";
+import { AuthDirective } from "../directives";
 
 const typeDefs = gql`
+  directive @auth(permission: Permission) on FIELD_DEFINITION
+
+  enum Permission {
+    MANAGE_FRUITS
+    MANAGE_VEGETABLES
+  }
+
   type Fruit {
     id: ID!
     name: String!
   }
 
   type Query {
-    fruits: [Fruit!]!
-    fruit(id: ID!): Fruit
+    fruits: [Fruit!]! @auth
+    fruit(id: ID!): Fruit @auth
   }
 
   type Error {
@@ -37,9 +44,10 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    createFruit(input: FruitInput!): CreateFruit!
+    createFruit(input: FruitInput!): CreateFruit! @auth
     updateFruit(id: ID!, input: FruitInput!): UpdateFruit!
-    deleteFruit(id: ID!): DeleteFruit!
+      @auth(permission: MANAGE_FRUITS)
+    deleteFruit(id: ID!): DeleteFruit! @auth(permission: MANAGE_FRUITS)
   }
 `;
 
@@ -53,17 +61,19 @@ const resolvers: Resolvers = {
       const fruit = await dataSources.fruits.create(input);
       return { fruit, errors: [] };
     },
-    updateFruit: async (_, { id, input }, { dataSources, user }) => {
-      checkPermission(user, Permission.MANAGE_FRUITS);
+    updateFruit: async (_, { id, input }, { dataSources }) => {
       const fruit = await dataSources.fruits.update(id, input);
       return { fruit: fruit, errors: [] };
     },
-    deleteFruit: async (_, { id }, { dataSources, user }) => {
-      checkPermission(user, Permission.MANAGE_FRUITS);
+    deleteFruit: async (_, { id }, { dataSources }) => {
       const success = await dataSources.fruits.delete(id);
       return { success, errors: [] };
     },
   },
 };
 
-export const schema = makeExecutableSchema({ typeDefs, resolvers });
+export const schema = makeExecutableSchema({
+  typeDefs,
+  resolvers,
+  schemaDirectives: { auth: AuthDirective },
+});
